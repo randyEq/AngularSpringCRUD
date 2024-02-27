@@ -1,0 +1,95 @@
+<!-- <p>employee-details works!</p> -->
+<div *ngIf="viewMode; else editable">
+    <div *ngIf="currentEmployee.id">
+      <h4>Employee</h4>
+      <div>
+        <label><strong>Name:</strong></label> {{ currentEmployee.name }}
+      </div>
+      <div>
+        <label><strong>Department:</strong></label>
+        {{ currentEmployee.department }}
+      </div>
+      <div>
+        <label><strong>Status:</strong></label>
+        {{ currentEmployee.active ? "Active" : "Pending" }}
+      </div>
+  
+      <a
+        class="badge badge-warning"
+        routerLink="/employees/{{ currentEmployee.id }}"
+      >
+        Edit
+      </a>
+    </div>
+  
+    <div *ngIf="!currentEmployee">
+      <br />
+      <p>Please click on a Employee...</p>
+    </div>
+  </div>
+  
+  <ng-template #editable>
+    <div *ngIf="currentEmployee.id" class="edit-form">
+      <h4>Employee</h4>
+      <form>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            [(ngModel)]="currentEmployee.name"
+            name="name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="department">Department</label>
+          <input
+            type="text"
+            class="form-control"
+            id="department"
+            [(ngModel)]="currentEmployee.department"
+            name="department"
+          />
+        </div>
+  
+        <div class="form-group">
+          <label><strong>Status:</strong></label>
+          {{ currentEmployee.active ? "Active" : "Pending" }}
+        </div>
+      </form>
+  
+      <button
+        class="badge badge-primary mr-2"
+        *ngIf="currentEmployee.active"
+        (click)="updateActive(false)"
+      >
+        Inactivate
+      </button>
+      <button
+        *ngIf="!currentEmployee.active"
+        class="badge badge-primary mr-2"
+        (click)="updateActive(true)"
+      >
+        Activate
+      </button>
+  
+      <button class="badge badge-danger mr-2" (click)="deleteEmployee()">
+        Delete
+      </button>
+  
+      <button
+        type="submit"
+        class="badge badge-success mb-2"
+        (click)="updateEmployee()"
+      >
+        Update
+      </button>
+      <p>{{ message }}</p>
+    </div>
+  
+    <div *ngIf="!currentEmployee.id">
+      <br />
+      <p>Cannot access this Employee...</p>
+    </div>
+  </ng-template>
